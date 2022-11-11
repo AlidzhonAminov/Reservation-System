@@ -1,13 +1,16 @@
+from utils import UserInputHandler
+
 USER_CHOICE = """
 Enter:
- '1' to check reservation for specific time of the room
- '2' to make a reservation
- '3' cancel reservation
-'q' to quit
+ '1' to check reservation of a specific room or all rooms.
+ '2' to make a reservation.
+ '3' cancel reservation.
+ 'q' to quit.
 Your choice: """
 
 
 def menu():
+
     user_input = input(USER_CHOICE)
     while user_input != 'q':
         if user_input == '1':
@@ -21,45 +24,48 @@ def menu():
 
 
 def check_reservation():
-    specific_room = input('Are you interested in a specific room? Yes/No')
-    if specific_room == 'Yes':
-        room_num = input('Which room are you interested in: ')
-        print("Enter in the following format 'YYYY-MM-DD' from what date you want to check the reservations.")
-        date_from = input('From:')
-        print("Enter in the following format 'YYYY-MM-DD' until what date you want to check the reservations.")
-        date_until = input('Until:')
+
+    specific_room = input('Are you interested in a specific room? Enter Yes or No: ')
+    specific_room = specific_room.lower()
+    if specific_room == 'yes':
+        room_num = UserInputHandler.__room_info(return_type='check')
+        from_date = UserInputHandler.__from_date_info(return_type='check')
+        until_date = UserInputHandler.__until_date_info(from_date,return_type='check')
+
     else:
-        print("Enter in the following format 'YYYY-MM-DD HH:MM' from what date you want to check the reservations.")
-        date_from = input('From:')
-        print("Enter in the following format 'YYYY-MM-DD HH:MM' until what date you want to check the reservations.")
-        date_until = input('Until:')
-
-
+        from_date = UserInputHandler.__from_date_info(return_type='check')
+        until_date = UserInputHandler.__until_date_info(from_datetime = from_date,return_type ='check')
+        
 
 
 def make_reservation():
 
-    room_num = None
-    while type(room_num) != int:
-        try:
-            room_num = int(input('Enter room number that you want to reserve: '))
-            if room_num not in (1, 2, 3, 4, 5):
-                print(f"Please make a valid selection. The room {room_num} does not exist.")
-                room_num = None
-        except ValueError:
-            print("Please enter a number, not alphanumeric.")
+    #Room information
+    room_num = UserInputHandler.__room_info()
 
-    name = str(input('Enter your name: '))
-    from_datetime = input("Enter in the following format 'YYYY-MM-DD' HH:MM the exact date and time from when you want to reserve the room: ")
-    until_datetime = input("Enter in the following format 'YYYY-MM-DD HH:MM'  the exact date and time until when you want to reserve the room")
-    phone_number = input('Enter your phone number in the following format +992 XXX XXX XXX: ')
-    email_address = input('Enter your email address: ')
+    #Getting the name
+    name = str(input('Enter your name: ')).upper()
 
+    #Getting infromation  from when the room is needed
+    from_datetime = UserInputHandler.__from_date_info()
+
+    #Getting infromation until when the room is needed
+    until_datetime = UserInputHandler.__until_date_info(from_datetime)
+
+
+    #Getting information about a phone number
+    phone_number = UserInputHandler.__phone_number_info()
+
+    #Getting information about an email address
+    email_address = UserInputHandler.__email_address_info()
 
 
 def cancel_reservation():
-    phone_num = input('Enter your phone number: ')
-    date = input('Enter the date and time: ')
-
+    certain_cancellation = input('Are you sure that you want to cancel the reservation? Yes/No: ').lower()
+    if certain_cancellation == 'yes':
+        reservation_id = input('Enter your reservation id: ')
+    else:
+        pass
 
 menu()
+
