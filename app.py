@@ -105,7 +105,7 @@ def make_reservation() -> None:
     if bool(check_before_insert) == False:
         reservation_id = database.insert_reservation_info(room_num,name,from_datetime,until_datetime,phone_number,email_address)
         EmailPhoneAlert.send_email(email_address,room_num,name,reservation_id,from_datetime,until_datetime)
-        #EmailPhoneAlert.send_sms(email_address,room_num,name,reservation_id,from_datetime,until_datetime)
+        EmailPhoneAlert.send_sms(email_address,room_num,name,reservation_id,from_datetime,until_datetime)
     else:
         print(f'We are sorry to inform you that room {room_num} is already reserved by another person for the given time period: {from_datetime} ~ {until_datetime}')
         print(f'Please, choose another time and date and try again.')
