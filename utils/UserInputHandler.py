@@ -1,7 +1,13 @@
 import re
 from datetime import datetime as dt
 
-def __room_info(return_type=None):
+
+def __room_info(return_type=None) -> str:
+    """
+    This function ensures that a user's "room number" input is not null and is in the correct format.,
+    :param return_type: If this function is used by the 'check_reservation()' function, then return_type should be equal to "check," but if it is used for the 'make_reservation()' function, then return_type should be equal to "None."
+    :return string value
+    """
     room_num = None
     while type(room_num) != int:
         try:
@@ -20,7 +26,12 @@ def __room_info(return_type=None):
     return str(room_num)
 
 
-def __from_date_info(return_type=None):
+def __from_date_info(return_type=None) -> str:
+    """
+    This function ensures that a user's "from-date" input is not null, is not out of range for the month, and is in the correct format.,
+    :param return_type: If this function is used by the 'check_reservation()' function, then return_type should be equal to "check," but if it is used for the 'make_reservation()' function, then return_type should be equal to "None.",
+    :return string value
+    """
     match_from = None
     while bool(match_from) != True:
         try:
@@ -28,27 +39,22 @@ def __from_date_info(return_type=None):
                 print("Enter in the following format 'YYYY-MM-DD' from what date you want to check the reservations.")
                 from_date = input('From:')
                 pattern = r'\d{4}-\d?\d-\d\d$'
-
             else:  # For making reservations
-                from_date = input('Enter in the following format YYYY-MM-DD HH: MM the exact date and time from when you want to reserve the room: ')
+                from_date = input('Enter in the following format YYYY-MM-DD HH:MM the exact date and time from when you want to reserve the room: ')
                 pattern = r'\d{4}-\d?\d-\d?\d (?:2[0-3]|[01]?[0-9]):[0-5]?[0-9]{2}$'
-
             match_from = re.match(pattern, string=from_date)
-
-            if len(from_date) == 0:  # For checking reservations
+            if len(from_date) == 0:
                 if return_type == 'check':
                     print('You did not enter from what date and time you would like to check reservations.')
-                else:  # For making reservations
+                else:
                     print('You have not entered from when and what time you need the room.')
                 match_from = None
-
             elif bool(match_from) == False:
-                if return_type == 'check': # For checking reservations
+                if return_type == 'check':
                     print(f"You entered the date, not in the correct format.")
-                else: # For making reservations
+                else:
                     print(f"You entered the date and time, not in the correct format.")
                     match_from = None
-                # Checking if entered date is not out of range
             if return_type == 'check':
                 dt.strptime(from_date, '%Y-%m-%d')
             else:
@@ -56,12 +62,18 @@ def __from_date_info(return_type=None):
         except ValueError:
             print("Invalid input. Please try again: ")
             match_from = None
+
     return from_date
 
 
-def __until_date_info(from_datetime, return_type=None):
+def __until_date_info(from_datetime, return_type=None) -> str:
+    """
+    This function ensures that a user's until-date input is not null, it is not out of range for the month, and it is in the correct format.,
+    :param return_type: If this function is used by the 'check_reservation()' function, then return_type should be equal to "check," but if it is used for the 'make_reservation()' function, then return_type should be equal to "None."
+    :param from_datetime: The "from-date" value is needed for comparing it to the 'until-date' value to ensure the "End Date" is not less than the "Start Date.",
+    :return string value
+    """
     later_then_start = False
-
     while later_then_start != True:
         try:
             match_until = None
@@ -73,7 +85,7 @@ def __until_date_info(from_datetime, return_type=None):
                         pattern = r'\d{4}-\d?\d-\d\d$'
 
                     else:  # For making reservations
-                        until_date = input("Enter in the following format 'YYYY-MM-DD HH: MM'  the exact date and time until when you want to reserve the room")
+                        until_date = input("Enter in the following format 'YYYY-MM-DD HH:MM' the exact date and time until when you want to reserve the room: ")
                         pattern = r'\d{4}-\d?\d-\d?\d (?:2[0-3]|[01]?[0-9]):[0-5]?[0-9]{2}$'
 
                     match_until = re.match(pattern, string=until_date)
@@ -107,8 +119,11 @@ def __until_date_info(from_datetime, return_type=None):
             continue
 
 
-
-def __phone_number_info():
+def __phone_number_info() -> str:
+    """
+    This function ensures that a user's "phone number" input is not null and is in the correct format.,
+    :return string value
+    """
     match_phone = None
     while bool(match_phone) != True:
         try:
@@ -126,7 +141,11 @@ def __phone_number_info():
     return phone_number
 
 
-def __email_address_info():
+def __email_address_info() -> str:
+    """
+    This function ensures that a user's "phone number" input is not null and is in the correct format.,
+    :return string value
+    """
     match_email = None
     while bool(match_email) != True:
         try:
