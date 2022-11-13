@@ -1,9 +1,9 @@
+from typing import Dict,List
+
 from datetime import datetime as dt
 from utils.database_connection import DatabaseConnection
 from dotenv import load_dotenv
 import os
-
-from typing import Dict,List
 
 load_dotenv()
 DB_URL = os.environ["DATABASE_URI"]
@@ -30,7 +30,7 @@ INSERTING_RESERVATIONS = """INSERT INTO reservations
                             VALUES (%s,%s,%s,%s,%s,%s) RETURNING id;
                                 """
 #SELECT
-SELECT_RESERVATIONS = """ 
+SELECT_RESERVATIONS = """
                     SELECT * FROM reservations WHERE from_datetime >= %s AND until_datetime <= %s AND NOT cancel = 1;
                     """
 
